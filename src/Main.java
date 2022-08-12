@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Main extends Application {
@@ -91,21 +92,19 @@ public class Main extends Application {
         gc.fillPolygon(xPointsShip, yPointsShip, 4);
 
         // fire
-        try {
-            for (Fire fire : fires) {
-                // draw fire
-                gc.setFill(Color.YELLOW);
-                gc.fillOval(fire.getX(), fire.getY(), 5, 5);
-                // move fire
-                fire.setY(fire.getY() - fire.getSpeed());
-                // remove from arr when out
-                if (fire.getY() <= 0) fires.remove(0);
-            }
-        } catch (Exception e) {
+        Iterator<Fire> it_fire = fires.iterator();
+        while (it_fire.hasNext()) {
+            Fire fire = it_fire.next();
+            // draw fire
+            gc.setFill(Color.YELLOW);
+            gc.fillOval(fire.getX(), fire.getY(), 5, 5);
+            // move fire
+            fire.setY(fire.getY() - fire.getSpeed());
+            // remove from arr when out
+            if (fire.getY() <= 0) it_fire.remove();
         }
 
         // enemies
-
         for (Enemy enemy : enemies) {
             // draw enemies
             gc.setFill(Color.GREEN);
@@ -116,16 +115,15 @@ public class Main extends Application {
         }
 
         // destroying enemies
-        try {
-            for (Fire fire : fires) {
-                for (Enemy enemy : enemies) {
-                    if (fire.getX() >= enemy.getX() - 10 && fire.getX() <= enemy.getX() + 10 && fire.getY() <= enemy.getY() + 10 && fire.getY() >= enemy.getY() - 10) {
-                        enemies.remove(enemy);
-                        score++;
-                    }
+        Iterator<Enemy> it_enemy = enemies.iterator();
+        for (Fire fire : fires) {
+            while (it_enemy.hasNext()) {
+                Enemy enemy = it_enemy.next();
+                if (fire.getX() >= enemy.getX() - 10 && fire.getX() <= enemy.getX() + 10 && fire.getY() <= enemy.getY() + 10 && fire.getY() >= enemy.getY() - 10) {
+                    it_enemy.remove();
+                    score++;
                 }
             }
-        } catch (Exception e) {
         }
 
         // score

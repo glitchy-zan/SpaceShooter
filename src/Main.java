@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main extends Application {
 
@@ -26,6 +27,7 @@ public class Main extends Application {
     private double playerYValue = HEIGHT / 2;
 
     private ArrayList<Fire> fires = new ArrayList<>();
+    private ArrayList<Enemy> enemies = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -56,6 +58,9 @@ public class Main extends Application {
         scene.setOnMouseClicked(e -> {
             fires.add(new Fire(playerXValue, playerYValue - 20, 3));
         });
+
+        // add one enemy
+        enemies.add(new Enemy(new Random().nextDouble(WIDTH), 20));
 
         window.setScene(scene);
         window.setResizable(false);
@@ -89,6 +94,30 @@ public class Main extends Application {
                 if (fire.getyValue() <= 0) fires.remove(0);
             }
         } catch (Exception e) {
+        }
+
+        // enemies
+
+        for (Enemy enemy : enemies) {
+            // draw enemies
+            gc.setFill(Color.GREEN);
+            gc.fillRect(enemy.getxValue() - 10, enemy.getyValue() - 10, 20, 20);
+            // move enemies
+            enemy.setxValue((enemy.getxValue() < playerXValue) ? enemy.getxValue() + 0.1 : enemy.getxValue() - 0.1);
+            enemy.setyValue(enemy.getyValue() + 0.1);
+        }
+
+        // destroying enemies
+        try {
+            for (Fire fire : fires) {
+                for (Enemy enemy : enemies) {
+                    if (fire.getxValue() >= enemy.getxValue() - 10 && fire.getxValue() <= enemy.getxValue() + 10 && fire.getyValue() <= enemy.getyValue() + 10 && fire.getyValue() >= enemy.getyValue() - 10) {
+                        enemies.remove(enemy);
+                    }
+                }
+            }
+        } catch (Exception e) {
+
         }
     }
 }

@@ -26,6 +26,9 @@ public class Main extends Application {
     private double playerXValue = WIDTH / 2;
     private double playerYValue = HEIGHT / 2;
 
+    private int numberOfEnemies = 10;
+    private int score = 0;
+
     private ArrayList<Fire> fires = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
 
@@ -59,8 +62,10 @@ public class Main extends Application {
             fires.add(new Fire(playerXValue, playerYValue - 20, 3));
         });
 
-        // add one enemy
-        enemies.add(new Enemy(new Random().nextDouble(WIDTH), 20));
+        // add starting enemies
+        for (int i = 0; i < numberOfEnemies; i++) {
+            enemies.add(new Enemy(new Random().nextDouble(WIDTH), 20));
+        }
 
         window.setScene(scene);
         window.setResizable(false);
@@ -73,6 +78,9 @@ public class Main extends Application {
         // set up
         double[] xPointsShip = {playerXValue, playerXValue + 25, playerXValue - 25, playerXValue};
         double[] yPointsShip = {playerYValue - 20, playerYValue + 20, playerYValue + 20, playerYValue - 20};
+
+        // add enemies if needed
+        if (enemies.size() < 10) enemies.add(new Enemy(new Random().nextDouble(WIDTH), 20));
 
         // background
         gc.setFill(Color.BLACK);
@@ -113,11 +121,15 @@ public class Main extends Application {
                 for (Enemy enemy : enemies) {
                     if (fire.getxValue() >= enemy.getxValue() - 10 && fire.getxValue() <= enemy.getxValue() + 10 && fire.getyValue() <= enemy.getyValue() + 10 && fire.getyValue() >= enemy.getyValue() - 10) {
                         enemies.remove(enemy);
+                        score++;
                     }
                 }
             }
         } catch (Exception e) {
-
         }
+
+        // score
+        gc.setFill(Color.WHITE);
+        gc.fillText(String.valueOf("score: " + score), 20, 400);
     }
 }

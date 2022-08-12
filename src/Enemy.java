@@ -1,25 +1,25 @@
 public class Enemy {
-    private double xValue;
-    private double yValue;
+    private double x;
+    private double y;
 
     public Enemy(double x, double y) {
-        this.xValue = x;
-        this.yValue = y;
+        this.x = x;
+        this.y = y;
     }
 
-    public double getyValue() {
-        return yValue;
+    public double getY() {
+        return y;
     }
 
-    public double getxValue() {
-        return xValue;
+    public double getX() {
+        return x;
     }
 
-    public void setyValue(double yValue) {
-        this.yValue = yValue;
+    public void setY(double y) {
+        this.y = y;
     }
 
-    public void setxValue(double xValue) {
-        this.xValue = xValue;
+    public void setX(double x) {
+        this.x = x;
     }
 }

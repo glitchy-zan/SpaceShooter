@@ -95,11 +95,11 @@ public class Main extends Application {
             for (Fire fire : fires) {
                 // draw fire
                 gc.setFill(Color.YELLOW);
-                gc.fillOval(fire.getxValue(), fire.getyValue(), 5, 5);
+                gc.fillOval(fire.getX(), fire.getY(), 5, 5);
                 // move fire
-                fire.setyValue(fire.getyValue() - fire.getSpeed());
+                fire.setY(fire.getY() - fire.getSpeed());
                 // remove from arr when out
-                if (fire.getyValue() <= 0) fires.remove(0);
+                if (fire.getY() <= 0) fires.remove(0);
             }
         } catch (Exception e) {
         }
@@ -109,17 +109,17 @@ public class Main extends Application {
         for (Enemy enemy : enemies) {
             // draw enemies
             gc.setFill(Color.GREEN);
-            gc.fillRect(enemy.getxValue() - 10, enemy.getyValue() - 10, 20, 20);
+            gc.fillRect(enemy.getX() - 10, enemy.getY() - 10, 20, 20);
             // move enemies
-            enemy.setxValue((enemy.getxValue() < playerXValue) ? enemy.getxValue() + 0.1 : enemy.getxValue() - 0.1);
-            enemy.setyValue(enemy.getyValue() + 0.1);
+            enemy.setX((enemy.getX() < playerXValue) ? enemy.getX() + 0.1 : enemy.getX() - 0.1);
+            enemy.setY(enemy.getY() + 0.1);
         }
 
         // destroying enemies
         try {
             for (Fire fire : fires) {
                 for (Enemy enemy : enemies) {
-                    if (fire.getxValue() >= enemy.getxValue() - 10 && fire.getxValue() <= enemy.getxValue() + 10 && fire.getyValue() <= enemy.getyValue() + 10 && fire.getyValue() >= enemy.getyValue() - 10) {
+                    if (fire.getX() >= enemy.getX() - 10 && fire.getX() <= enemy.getX() + 10 && fire.getY() <= enemy.getY() + 10 && fire.getY() >= enemy.getY() - 10) {
                         enemies.remove(enemy);
                         score++;
                     }
